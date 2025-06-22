@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instance Manager</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    <pixel-canvas 
+        id="pixel-effect-canvas"
+        data-colors="#7f1d1d,#991b1b,#b91c1c,#dc2626,#ef4444" 
+        data-gap="10" 
+        data-speed="15">
+    </pixel-canvas>
+
+    <!-- Selection Page -->
+    <div class="selection-page" id="selectionPage">
+        <!-- Main Content for this page -->
+        <div class="main-content">
+            <div class="header">
+                <h1 class="title">ComfyUI Instance</h1>
+                <p class="subtitle">Select your user</p>
+            </div>
+        <div class="intro-container">
+                <div class="dropdown-wrapper">
+                    <div class="dropdown-container" id="dropdownContainer">
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            id="searchInput"
+                            placeholder="Search users..."
+                            autocomplete="off"
+                        >
+                        <div class="dropdown-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                        
+                        <div class="dropdown-menu" id="dropdownMenu">
+                            <div class="dropdown-list" id="dropdownList">
+                                <!-- Users will be populated here -->
+                            </div>
+                            <div class="no-results" id="noResults" style="display: none;">
+                                <span>No users found</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card Display Page -->
+    <div class="card-page" id="cardPage">
+        <button class="back-button" id="backButton" title="Back to selection">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+        </button>
+
+        <div class="main-container">
+            <!-- User Card -->
+            <div class="user-card" id="userCard">
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <div class="card-title" id="cardTitle">User Name</div>
+                    
+                    <div class="control-buttons">
+                        <button class="control-button start-button" onclick="startComfy()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            Start
+                        </button>
+                        <button class="control-button stop-button" onclick="stopComfy()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="6" y="6" width="12" height="12"></rect>
+                            </svg>
+                            Stop
+                        </button>
+                        <button class="control-button setup-button" id="setupButton" onclick="setupComfy()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                            Setup
+                        </button>
+                    </div>
+                    
+                    <div class="status-indicator" id="statusIndicator">
+                        <div class="status-dot"></div>
+                        <span class="status-text">Ready</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logs Panel -->
+            <div class="logs-panel">
+                <div class="logs-header">
+                    <h2>Instance Logs</h2>
+                    <div class="logs-controls">
+                        <div class="copy-section">
+                            <span id="copyText"></span>
+                            <button class="copy-button" id="copyButton" onclick="openLinkInNewTab()" title="Open ComfyUI">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15,3 21,3 21,9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="logs-wrapper" id="logsWrapper">
+                    <pre id="comfyLogBox">No logs available. Start an instance to see logs.</pre>
+                </div>
+                
+                <button class="jump-button" id="jumpToBottomButton" title="Scroll to bottom">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 13l3 3 7-7M7 6l3 3 7-7"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- The script file name should match your file, e.g., script.js or particle.js -->
+    <script src="./script.js"></script>
+</body>
+</html>
