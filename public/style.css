@@ -48,6 +48,13 @@ body {
     z-index: 1;
 }
 
+/* Search input spacebar focus effect */
+.search-input.spacebar-focus {
+    transform: scale(1.02);
+    border-color: #ef4444;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
 /* Header animations - only on first load */
 .header {
     text-align: center;
@@ -586,10 +593,16 @@ body {
 }
 
 .status-dot.running {
-    background: #3b82f6;
-    animation: pulse 2s infinite;
+    background: #10b981;
+    animation: pulseGreen 2s infinite;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
 }
 
+@keyframes pulseGreen {
+            0% { box-shadow: 0 0 0 0 rgba(56, 161, 105, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(56, 161, 105, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(56, 161, 105, 0); }
+        }
 .status-dot.stopped {
     background: #ef4444;
 }

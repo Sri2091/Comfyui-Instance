@@ -91,7 +91,37 @@ function setupEventListeners() {
         updateJumpButtonState();
         scrollToBottom();
     });
+    // Add spacebar listener for search box activation
+    document.addEventListener('keydown', handleGlobalKeydown);
 }
+
+function handleGlobalKeydown(e) {
+    // Only activate on spacebar when on selection page and search box is not already focused
+    if (e.code === 'Space' && 
+        selectionPage.style.display !== 'none' && 
+        document.activeElement !== searchInput &&
+        !isInputElement(document.activeElement)) {
+        
+        e.preventDefault(); // Prevent page scroll
+        searchInput.focus();
+        showDropdown();
+        
+        // Add a subtle visual feedback
+        searchInput.classList.add('spacebar-focus');
+        setTimeout(() => {
+            searchInput.classList.remove('spacebar-focus');
+        }, 300);
+    }
+}
+
+function isInputElement(element) {
+    // Check if the currently focused element is an input that should receive text
+    if (!element) return false;
+    const tagName = element.tagName.toLowerCase();
+    const inputTypes = ['input', 'textarea', 'select'];
+    return inputTypes.includes(tagName) || element.contentEditable === 'true';
+}
+
 
 // Load user list from volume map (volume info only for display, no restrictions)
 async function loadUserList() {
