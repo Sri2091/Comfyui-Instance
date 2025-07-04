@@ -67,7 +67,7 @@ export LD_PRELOAD="${TCMALLOC}"
 mkdir -p "/workspace/logs"
 
 # Start ComfyUI in background
-nohup python main.py --listen 0.0.0.0 > "/workspace/logs/comfyui.log" 2>&1 &
+nohup python main.py --preview-method latent2rgb --listen 0.0.0.0 > "/workspace/logs/comfyui.log" 2>&1 &
 COMFY_PID=$!
 
 # Wait a moment and check if it started successfully
